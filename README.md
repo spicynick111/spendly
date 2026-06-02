@@ -1,5 +1,7 @@
 # Spendly — AI-Powered Expense Tracker
 
+**Live Demo:** [https://spendly-e0tb.onrender.com](https://spendly-e0tb.onrender.com)
+
 A full-stack expense tracking web app with AI features built using FastAPI and Claude API.
 
 ## Features
@@ -16,7 +18,7 @@ A full-stack expense tracking web app with AI features built using FastAPI and C
 | Layer | Technology |
 |---|---|
 | Backend | Python, FastAPI |
-| Database | SQLite |
+| Database | PostgreSQL (production) / SQLite (local dev) |
 | Frontend | Jinja2 Templates, HTML, CSS, Vanilla JS |
 | AI | Anthropic Claude API (Haiku) — Tool Use, Text Generation |
 | Deployment | Render |
@@ -71,7 +73,7 @@ Open [http://localhost:8000](http://localhost:8000)
 ├── main.py              # FastAPI app entry point
 ├── utils.py             # Shared helpers
 ├── database/
-│   └── db.py            # SQLite connection + schema
+│   └── db.py            # PostgreSQL + SQLite dual support
 ├── routers/
 │   ├── auth.py          # Login / Register / Logout
 │   ├── expenses.py      # Expense CRUD + Dashboard
