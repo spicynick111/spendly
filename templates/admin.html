@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel — Spendly{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+
+    <div class="dash-header">
+        <div>
+            <h1 class="dash-title">Admin Panel</h1>
+            <p class="dash-subtitle">All users &amp; their data</p>
+        </div>
+        <span class="ai-badge" style="font-size:0.75rem;padding:0.3rem 0.8rem;">ADMIN</span>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <p class="stat-label">Total Users</p>
+            <p class="stat-value">{{ total_users }}</p>
+        </div>
+        <div class="stat-card">
+            <p class="stat-label">Total Expenses</p>
+            <p class="stat-value">{{ total_expenses }}</p>
+        </div>
+        <div class="stat-card">
+            <p class="stat-label">Total Amount</p>
+            <p class="stat-value stat-value-sm">₹{{ "%.0f"|format(total_amount) }}</p>
+        </div>
+    </div>
+
+    <!-- Per user data -->
+    {% for item in data %}
+    <div class="dash-card expense-list-card" style="margin-bottom:1rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+            <div>
+                <p style="font-weight:600;font-size:1rem;color:var(--ink);">{{ item.user.name }}</p>
+                <p style="font-size:0.82rem;color:var(--ink-muted);">{{ item.user.email }} · Joined {{ item.user.created_at[:10] }}</p>
+            </div>
+            <div style="text-align:right;">
+                <p style="font-family:var(--font-display);font-size:1.3rem;">₹{{ "%.0f"|format(item.total) }}</p>
+                <p style="font-size:0.78rem;color:var(--ink-muted);">{{ item.count }} expense{{ "s" if item.count != 1 else "" }}</p>
+            </div>
+        </div>
+
+        {% if item.expenses %}
+        <table class="expense-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in item.expenses %}
+                <tr>
+                    <td class="td-date">{{ e.date }}</td>
+                    <td class="td-desc">{{ e.description or "—" }}</td>
+                    <td><span class="cat-pill">{{ e.category }}</span></td>
+                    <td class="td-amount">₹{{ "%.0f"|format(e.amount) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color:var(--ink-faint);font-size:0.85rem;">No expenses yet.</p>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="dash-card">
+        <p class="empty-state">No users registered yet.</p>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

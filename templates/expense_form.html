@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}{{ "Edit" if expense else "Add" }} Expense — Spendly{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-container" style="max-width: 520px;">
+
+        <div class="auth-header">
+            <h1 class="auth-title">{{ "Edit expense" if expense else "Add expense" }}</h1>
+        </div>
+
+        <!-- AI Natural Language Input -->
+        <div class="ai-nl-card">
+            <div class="ai-badge-row">
+                <span class="ai-badge">AI</span>
+                <span class="ai-nl-label">Describe in plain English</span>
+            </div>
+            <div class="nl-row">
+                <input type="text" id="nl-input" class="form-input"
+                       placeholder='e.g. "Swiggy lunch 350 rupees" or "electric bill 2400 yesterday"'>
+                <button type="button" id="nl-parse-btn" class="btn-ai">Fill with AI</button>
+            </div>
+            <p id="nl-status" class="nl-status"></p>
+        </div>
+
+        <div class="or-divider"><span>or fill manually</span></div>
+
+        <div class="auth-card">
+            {% if error %}
+            <div class="auth-error">{{ error }}</div>
+            {% endif %}
+
+            <form method="POST"
+                  action="{{ '/expenses/' ~ expense.id ~ '/edit' if expense else '/expenses/add' }}">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="amount">Amount (₹)</label>
+                        <input type="number" id="amount" name="amount" class="form-input"
+                               value="{{ expense.amount if expense else '' }}"
+                               step="0.01" min="0" required placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" name="date" class="form-input"
+                               value="{{ expense.date if expense else today }}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" name="description" class="form-input"
+                           value="{{ expense.description if expense else '' }}"
+                           placeholder="What was this for?">
+                    <p id="ai-cat-hint" class="ai-hint"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" class="form-input form-select">
+                        {% for cat in categories %}
+                        <option value="{{ cat }}"
+                                {{ 'selected' if expense and expense.category == cat else '' }}>
+                            {{ cat }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    {{ "Save changes" if expense else "Add expense" }}
+                </button>
+            </form>
+        </div>
+
+        <p class="auth-switch"><a href="/dashboard">← Back to dashboard</a></p>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,24 @@
+# Environment — API keys yahan hain, kabhi commit mat karo
+.env
+
+# Database — local data
+*.db
+*.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+
+# macOS
+.DS_Store
+__MACOSX/
+
+# IDE
+.vscode/
+.idea/
+*.swp
